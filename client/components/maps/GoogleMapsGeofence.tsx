@@ -352,7 +352,62 @@ export default function GoogleMapsGeofence() {
       
       <div className="p-6">
         {/* Map Container */}
-        <div ref={mapRef} className="h-96 w-full rounded-lg border border-slate-200 mb-4"></div>
+        {IS_DEMO_MODE ? (
+          <div className="h-96 w-full rounded-lg border border-slate-200 mb-4 bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center">
+            <div className="text-center p-8">
+              <div className="text-6xl mb-4">🗺️</div>
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">Demo Mode</h3>
+              <p className="text-slate-600 mb-4 max-w-md">
+                To see real Google Maps with live geofencing, add your Google Maps API key to the environment variables.
+              </p>
+              <div className="bg-white/70 border border-slate-200 rounded-lg p-4 text-left text-sm">
+                <div className="font-mono text-slate-800">
+                  VITE_GOOGLE_MAPS_API_KEY=your_key_here
+                </div>
+              </div>
+              <p className="text-xs text-slate-500 mt-3">
+                Get your API key at{" "}
+                <a
+                  href="https://developers.google.com/maps/documentation/javascript/get-api-key"
+                  target="_blank"
+                  className="text-safety-600 hover:underline"
+                  rel="noopener noreferrer"
+                >
+                  Google Cloud Console
+                </a>
+              </p>
+            </div>
+
+            {/* Demo zones visualization */}
+            <div className="absolute inset-0 pointer-events-none">
+              {CRIME_ZONES.map((zone, index) => (
+                <div
+                  key={zone.zipcode}
+                  className="absolute"
+                  style={{
+                    left: `${20 + index * 15}%`,
+                    top: `${30 + index * 10}%`,
+                    transform: "translate(-50%, -50%)"
+                  }}
+                >
+                  <div
+                    className="h-12 w-12 rounded-full border-2 opacity-60"
+                    style={{
+                      backgroundColor: getZoneColor(zone.grade) + "40",
+                      borderColor: getZoneColor(zone.grade)
+                    }}
+                  >
+                    <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+                      {zone.grade}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div ref={mapRef} className="h-96 w-full rounded-lg border border-slate-200 mb-4"></div>
+        )}
         
         {/* Recent Alerts */}
         {alerts.length > 0 && (
