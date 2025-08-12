@@ -9,8 +9,9 @@ import {
 } from "lucide-react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import BuddyCard from "@/components/buddies/BuddyCard";
-import CrimeZoneMap from "@/components/safety/CrimeZoneMap";
+import GoogleMapsGeofence from "@/components/maps/GoogleMapsGeofence";
 import BuddyMatcher from "@/components/buddies/BuddyMatcher";
+import { useGeofencing } from "@/hooks/useGeofencing";
 
 const mockBuddies = [
   {
