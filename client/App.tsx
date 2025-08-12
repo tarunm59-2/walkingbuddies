@@ -88,8 +88,8 @@ const App = () => (
 const rootElement = document.getElementById("root")!;
 
 // Check if root already exists to prevent double mounting in dev mode
-if (!rootElement.hasAttribute('data-react-root')) {
-  rootElement.setAttribute('data-react-root', 'true');
+if (!rootElement.hasAttribute("data-react-root")) {
+  rootElement.setAttribute("data-react-root", "true");
   const root = createRoot(rootElement);
   root.render(<App />);
 }
