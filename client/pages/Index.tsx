@@ -12,6 +12,7 @@ import StatsCard from "@/components/dashboard/StatsCard";
 import BuddyCard from "@/components/buddies/BuddyCard";
 import GoogleMapsGeofence from "@/components/maps/GoogleMapsGeofence";
 import BuddyMatcher from "@/components/buddies/BuddyMatcher";
+import LocationPermission from "@/components/location/LocationPermission";
 import { useGeofencing } from "@/hooks/useGeofencing";
 
 const mockBuddies = [
