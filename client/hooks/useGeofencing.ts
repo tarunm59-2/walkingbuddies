@@ -255,19 +255,13 @@ export function useGeofencing() {
           processLocationUpdate(location);
         },
         (error) => {
-          let errorMessage = "Location tracking error";
-          switch (error.code) {
-            case error.PERMISSION_DENIED:
-              errorMessage = "Location permission revoked";
-              setState(prev => ({ ...prev, permissionStatus: "denied", isTracking: false }));
-              break;
-            case error.POSITION_UNAVAILABLE:
-              errorMessage = "Location temporarily unavailable";
-              break;
-            case error.TIMEOUT:
-              errorMessage = "Location update timed out";
-              break;
+          errorLogger.logGeolocationError(error, "watchPosition");
+          const errorMessage = errorLogger.getErrorSuggestion(error);
+
+          if (error.code === error.PERMISSION_DENIED) {
+            setState(prev => ({ ...prev, permissionStatus: "denied", isTracking: false }));
           }
+
           console.error(errorMessage, error);
         },
         {
