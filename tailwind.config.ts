@@ -57,14 +57,14 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Geofencing app specific colors
-        security: {
-          50: "hsl(var(--security-50))",
-          100: "hsl(var(--security-100))",
-          500: "hsl(var(--security-500))",
-          600: "hsl(var(--security-600))",
-          700: "hsl(var(--security-700))",
-          900: "hsl(var(--security-900))",
+        // Walking buddy app specific colors
+        safety: {
+          50: "hsl(var(--safety-50))",
+          100: "hsl(var(--safety-100))",
+          500: "hsl(var(--safety-500))",
+          600: "hsl(var(--safety-600))",
+          700: "hsl(var(--safety-700))",
+          900: "hsl(var(--safety-900))",
         },
         warning: {
           50: "hsl(var(--warning-50))",
@@ -76,9 +76,19 @@ export default {
           500: "hsl(var(--success-500))",
           600: "hsl(var(--success-600))",
         },
-        fence: {
-          active: "hsl(var(--fence-active))",
-          inactive: "hsl(var(--fence-inactive))",
+        danger: {
+          50: "hsl(var(--danger-50))",
+          500: "hsl(var(--danger-500))",
+          600: "hsl(var(--danger-600))",
+        },
+        buddy: {
+          online: "hsl(var(--buddy-online))",
+          offline: "hsl(var(--buddy-offline))",
+        },
+        zone: {
+          safe: "hsl(var(--safe-zone))",
+          danger: "hsl(var(--danger-zone))",
+          caution: "hsl(var(--caution-zone))",
         },
       },
       borderRadius: {
@@ -112,8 +122,7 @@ export default {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
     },
   },
