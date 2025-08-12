@@ -34,14 +34,14 @@ export default function Layout({ children }: LayoutProps) {
         <div className="flex h-full flex-col">
           {/* Logo */}
           <div className="flex h-16 items-center gap-3 px-6 border-b border-slate-200">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-security-500 to-security-600">
-              <Shield className="h-5 w-5 text-white" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-safety-500 to-safety-600">
+              <Heart className="h-5 w-5 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold bg-gradient-to-r from-security-600 to-security-700 bg-clip-text text-transparent">
-                GeoGuard
+              <span className="text-lg font-bold bg-gradient-to-r from-safety-600 to-safety-700 bg-clip-text text-transparent">
+                SafeWalk
               </span>
-              <span className="text-xs text-slate-500">Security Platform</span>
+              <span className="text-xs text-slate-500">Walking Buddy</span>
             </div>
           </div>
 
