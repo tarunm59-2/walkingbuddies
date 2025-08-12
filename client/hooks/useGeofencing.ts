@@ -214,18 +214,8 @@ export function useGeofencing() {
         navigator.geolocation.getCurrentPosition(
           resolve,
           (error) => {
-            let errorMessage = "Unknown location error";
-            switch (error.code) {
-              case error.PERMISSION_DENIED:
-                errorMessage = "Location permission denied by user";
-                break;
-              case error.POSITION_UNAVAILABLE:
-                errorMessage = "Location information unavailable";
-                break;
-              case error.TIMEOUT:
-                errorMessage = "Location request timed out";
-                break;
-            }
+            errorLogger.logGeolocationError(error, "startTracking");
+            const errorMessage = errorLogger.getErrorSuggestion(error);
             console.error("Geolocation error:", errorMessage, error);
             reject(new Error(errorMessage));
           },
