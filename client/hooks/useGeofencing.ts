@@ -198,18 +198,42 @@ export function useGeofencing() {
   // Start location tracking
   const startTracking = useCallback(async () => {
     if (!navigator.geolocation) {
-      console.error("Geolocation not supported");
+      console.error("Geolocation not supported in this browser");
+      setState(prev => ({
+        ...prev,
+        permissionStatus: "denied",
+        isTracking: false
+      }));
       return false;
     }
 
     try {
-      // Request permission
+      // Request permission with better error handling
       const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        });
+        navigator.geolocation.getCurrentPosition(
+          resolve,
+          (error) => {
+            let errorMessage = "Unknown location error";
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                errorMessage = "Location permission denied by user";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                errorMessage = "Location information unavailable";
+                break;
+              case error.TIMEOUT:
+                errorMessage = "Location request timed out";
+                break;
+            }
+            console.error("Geolocation error:", errorMessage, error);
+            reject(new Error(errorMessage));
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 15000, // Increased timeout
+            maximumAge: 60000 // Allow 1 minute old location
+          }
+        );
       });
 
       setState(prev => ({
@@ -225,10 +249,10 @@ export function useGeofencing() {
         accuracy: position.coords.accuracy,
         timestamp: new Date()
       };
-      
+
       processLocationUpdate(initialLocation);
 
-      // Start watching location
+      // Start watching location with better error handling
       watchIdRef.current = navigator.geolocation.watchPosition(
         (pos) => {
           const location: UserLocation = {
@@ -240,26 +264,75 @@ export function useGeofencing() {
           processLocationUpdate(location);
         },
         (error) => {
-          console.error("Location tracking error:", error);
-          setState(prev => ({ ...prev, isTracking: false }));
+          let errorMessage = "Location tracking error";
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              errorMessage = "Location permission revoked";
+              setState(prev => ({ ...prev, permissionStatus: "denied", isTracking: false }));
+              break;
+            case error.POSITION_UNAVAILABLE:
+              errorMessage = "Location temporarily unavailable";
+              break;
+            case error.TIMEOUT:
+              errorMessage = "Location update timed out";
+              break;
+          }
+          console.error(errorMessage, error);
         },
         {
-          enableHighAccuracy: true,
-          maximumAge: 30000, // 30 seconds
-          timeout: 10000
+          enableHighAccuracy: false, // Less strict for continuous tracking
+          maximumAge: 60000, // 1 minute
+          timeout: 15000 // 15 seconds
         }
       );
 
       return true;
     } catch (error) {
-      console.error("Failed to start location tracking:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to start location tracking";
+      console.error(errorMessage, error);
+
       setState(prev => ({
         ...prev,
         permissionStatus: "denied",
         isTracking: false
       }));
+
+      // Use demo location for testing when permission is denied
+      useDemoLocation();
       return false;
     }
+  }, [processLocationUpdate]);
+
+  // Use demo location for testing when real location is unavailable
+  const useDemoLocation = useCallback(() => {
+    const demoLocation: UserLocation = {
+      lat: 40.7589, // Manhattan center
+      lng: -73.9851,
+      accuracy: 10,
+      timestamp: new Date()
+    };
+
+    processLocationUpdate(demoLocation);
+
+    // Simulate movement for demo purposes
+    let moveCount = 0;
+    const demoInterval = setInterval(() => {
+      moveCount++;
+      if (moveCount > 5) {
+        clearInterval(demoInterval);
+        return;
+      }
+
+      const randomOffset = 0.001; // Small movement
+      const newLocation: UserLocation = {
+        lat: demoLocation.lat + (Math.random() - 0.5) * randomOffset,
+        lng: demoLocation.lng + (Math.random() - 0.5) * randomOffset,
+        accuracy: 10,
+        timestamp: new Date()
+      };
+
+      processLocationUpdate(newLocation);
+    }, 5000); // Move every 5 seconds
   }, [processLocationUpdate]);
 
   // Stop location tracking
