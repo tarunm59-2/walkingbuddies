@@ -19,7 +19,7 @@ const mockRequests: MatchRequest[] = [
     timeRequested: "Now",
     urgency: "high",
     riskLevel: "danger",
-    availableBuddies: 3
+    availableBuddies: 3,
   },
   {
     id: "2",
@@ -28,8 +28,8 @@ const mockRequests: MatchRequest[] = [
     timeRequested: "15 min",
     urgency: "medium",
     riskLevel: "caution",
-    availableBuddies: 7
-  }
+    availableBuddies: 7,
+  },
 ];
 
 const getUrgencyColor = (urgency: MatchRequest["urgency"]) => {
@@ -60,8 +60,12 @@ export default function BuddyMatcher() {
       <div className="p-6 border-b border-slate-200">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">Buddy Matching</h3>
-            <p className="text-sm text-slate-600 mt-1">Find walking partners for unsafe areas</p>
+            <h3 className="text-lg font-semibold text-slate-900">
+              Buddy Matching
+            </h3>
+            <p className="text-sm text-slate-600 mt-1">
+              Find walking partners for unsafe areas
+            </p>
           </div>
           <button className="inline-flex items-center gap-2 rounded-lg bg-safety-500 px-3 py-2 text-sm font-medium text-white hover:bg-safety-600 transition-colors">
             <Users className="h-4 w-4" />
@@ -69,7 +73,7 @@ export default function BuddyMatcher() {
           </button>
         </div>
       </div>
-      
+
       <div className="p-6">
         {/* Active requests */}
         <div className="space-y-4 mb-6">
@@ -78,17 +82,19 @@ export default function BuddyMatcher() {
               key={request.id}
               className={cn(
                 "rounded-lg border p-4 transition-all duration-200",
-                getUrgencyColor(request.urgency)
+                getUrgencyColor(request.urgency),
               )}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="h-5 w-5" />
                   <span className="font-medium">Walking Request</span>
-                  <span className={cn(
-                    "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
-                    getRiskColor(request.riskLevel)
-                  )}>
+                  <span
+                    className={cn(
+                      "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium",
+                      getRiskColor(request.riskLevel),
+                    )}
+                  >
                     {request.riskLevel} area
                   </span>
                 </div>
@@ -118,10 +124,13 @@ export default function BuddyMatcher() {
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4" />
                   <span className="text-sm">
-                    <span className="font-medium">{request.availableBuddies}</span> buddies available
+                    <span className="font-medium">
+                      {request.availableBuddies}
+                    </span>{" "}
+                    buddies available
                   </span>
                 </div>
-                
+
                 <div className="flex gap-2">
                   {request.urgency === "high" && (
                     <button className="inline-flex items-center gap-1 rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 transition-colors">
@@ -141,7 +150,9 @@ export default function BuddyMatcher() {
 
         {/* Quick start */}
         <div className="border-t border-slate-200 pt-6">
-          <h4 className="text-sm font-semibold text-slate-900 mb-4">Quick Match</h4>
+          <h4 className="text-sm font-semibold text-slate-900 mb-4">
+            Quick Match
+          </h4>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
             <button className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
               <MapPin className="h-4 w-4" />

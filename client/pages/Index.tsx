@@ -1,4 +1,12 @@
-import { Heart, MapPin, Users, AlertTriangle, Activity, Zap, Shield } from "lucide-react";
+import {
+  Heart,
+  MapPin,
+  Users,
+  AlertTriangle,
+  Activity,
+  Zap,
+  Shield,
+} from "lucide-react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import BuddyCard from "@/components/buddies/BuddyCard";
 import CrimeZoneMap from "@/components/safety/CrimeZoneMap";
@@ -15,7 +23,7 @@ const mockBuddies = [
     lastSeen: "2 min ago",
     isOnline: true,
     preferredAreas: ["Financial District", "Chelsea", "Greenwich Village"],
-    walkCount: 89
+    walkCount: 89,
   },
   {
     id: "2",
@@ -27,7 +35,7 @@ const mockBuddies = [
     lastSeen: "5 min ago",
     isOnline: true,
     preferredAreas: ["East Village", "SoHo"],
-    walkCount: 67
+    walkCount: 67,
   },
   {
     id: "3",
@@ -39,8 +47,8 @@ const mockBuddies = [
     lastSeen: "10 min ago",
     isOnline: false,
     preferredAreas: ["Brooklyn Heights", "DUMBO", "Park Slope"],
-    walkCount: 134
-  }
+    walkCount: 134,
+  },
 ];
 
 export default function Index() {
@@ -77,7 +85,9 @@ export default function Index() {
           value={3}
           change="2 require buddies"
           changeType="negative"
-          icon={<AlertTriangle className="h-5 w-5 lg:h-6 lg:w-6 text-red-600" />}
+          icon={
+            <AlertTriangle className="h-5 w-5 lg:h-6 lg:w-6 text-red-600" />
+          }
           className="border-red-200 bg-red-50/50"
         />
         <StatsCard
@@ -105,8 +115,12 @@ export default function Index() {
       {/* Available Buddies Section */}
       <div className="mt-6 lg:mt-8">
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-slate-900 mb-2">Available Walking Buddies</h2>
-          <p className="text-slate-600 text-sm">Connect with trusted companions near you</p>
+          <h2 className="text-xl font-semibold text-slate-900 mb-2">
+            Available Walking Buddies
+          </h2>
+          <p className="text-slate-600 text-sm">
+            Connect with trusted companions near you
+          </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">

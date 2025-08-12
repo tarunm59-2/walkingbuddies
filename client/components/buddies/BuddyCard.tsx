@@ -23,7 +23,7 @@ export default function BuddyCard({
   lastSeen,
   isOnline,
   preferredAreas,
-  walkCount
+  walkCount,
 }: BuddyCardProps) {
   return (
     <div className="bg-white/80 backdrop-blur-sm border border-slate-200 rounded-xl p-4 hover:shadow-md transition-all duration-200">
@@ -31,13 +31,17 @@ export default function BuddyCard({
         {/* Avatar */}
         <div className="relative">
           <div className="h-12 w-12 rounded-full bg-gradient-to-br from-safety-100 to-safety-200 flex items-center justify-center">
-            <span className="text-lg font-semibold text-safety-700">{name.charAt(0)}</span>
+            <span className="text-lg font-semibold text-safety-700">
+              {name.charAt(0)}
+            </span>
           </div>
           {/* Online indicator */}
-          <div className={cn(
-            "absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-white",
-            isOnline ? "bg-buddy-online" : "bg-buddy-offline"
-          )}></div>
+          <div
+            className={cn(
+              "absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-white",
+              isOnline ? "bg-buddy-online" : "bg-buddy-offline",
+            )}
+          ></div>
         </div>
 
         {/* Info */}
@@ -46,11 +50,13 @@ export default function BuddyCard({
             <h3 className="font-semibold text-slate-900 truncate">{name}</h3>
             <div className="flex items-center gap-1">
               <Star className="h-4 w-4 text-warning-500 fill-current" />
-              <span className="text-sm font-medium text-slate-700">{rating}</span>
+              <span className="text-sm font-medium text-slate-700">
+                {rating}
+              </span>
               <span className="text-sm text-slate-500">({reviewCount})</span>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4 text-sm text-slate-600 mb-2">
             <div className="flex items-center gap-1">
               <MapPin className="h-3 w-3" />
@@ -72,12 +78,16 @@ export default function BuddyCard({
               </span>
             ))}
             {preferredAreas.length > 2 && (
-              <span className="text-xs text-slate-500">+{preferredAreas.length - 2} more</span>
+              <span className="text-xs text-slate-500">
+                +{preferredAreas.length - 2} more
+              </span>
             )}
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500">{walkCount} walks completed</span>
+            <span className="text-xs text-slate-500">
+              {walkCount} walks completed
+            </span>
             <div className="flex gap-2">
               <button className="inline-flex items-center gap-1 rounded-lg bg-safety-500 px-3 py-1.5 text-sm font-medium text-white hover:bg-safety-600 transition-colors">
                 <MessageCircle className="h-3 w-3" />

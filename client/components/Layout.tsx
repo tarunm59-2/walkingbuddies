@@ -1,6 +1,15 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Heart, MapPin, Settings, Activity, Users, MessageCircle, Star, Navigation } from "lucide-react";
+import {
+  Heart,
+  MapPin,
+  Settings,
+  Activity,
+  Users,
+  MessageCircle,
+  Star,
+  Navigation,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LayoutProps {
@@ -57,23 +66,27 @@ export default function Layout({ children }: LayoutProps) {
                     "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                     isActive
                       ? "bg-gradient-to-r from-safety-500 to-safety-600 text-white shadow-lg shadow-safety-500/25"
-                      : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                      : "text-slate-700 hover:bg-slate-100 hover:text-slate-900",
                   )}
                 >
                   <item.icon
                     className={cn(
                       "h-5 w-5 transition-colors",
-                      isActive ? "text-white" : "text-slate-500 group-hover:text-slate-700"
+                      isActive
+                        ? "text-white"
+                        : "text-slate-500 group-hover:text-slate-700",
                     )}
                   />
                   <span className="flex-1">{item.name}</span>
                   {item.badge && (
-                    <span className={cn(
-                      "inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium",
-                      isActive
-                        ? "bg-white/20 text-white"
-                        : "bg-warning-500 text-white"
-                    )}>
+                    <span
+                      className={cn(
+                        "inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium",
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-warning-500 text-white",
+                      )}
+                    >
                       {item.badge}
                     </span>
                   )}
@@ -86,7 +99,9 @@ export default function Layout({ children }: LayoutProps) {
           <div className="p-4 border-t border-slate-200">
             <div className="flex items-center gap-3 rounded-lg bg-buddy-online/10 px-3 py-2">
               <div className="h-2 w-2 rounded-full bg-buddy-online"></div>
-              <span className="text-sm font-medium text-buddy-online">Available for Walking</span>
+              <span className="text-sm font-medium text-buddy-online">
+                Available for Walking
+              </span>
             </div>
           </div>
         </div>
@@ -110,16 +125,16 @@ export default function Layout({ children }: LayoutProps) {
           {/* Mobile status */}
           <div className="flex items-center gap-2 rounded-lg bg-buddy-online/10 px-2 py-1">
             <div className="h-1.5 w-1.5 rounded-full bg-buddy-online"></div>
-            <span className="text-xs font-medium text-buddy-online">Available</span>
+            <span className="text-xs font-medium text-buddy-online">
+              Available
+            </span>
           </div>
         </div>
       </div>
 
       {/* Main content */}
       <div className="lg:pl-64">
-        <main className="min-h-screen">
-          {children}
-        </main>
+        <main className="min-h-screen">{children}</main>
       </div>
     </div>
   );
