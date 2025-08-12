@@ -9,52 +9,52 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    --background: 210 20% 98%;
-    --foreground: 215 25% 27%;
+    --background: 200 20% 98%;
+    --foreground: 200 15% 25%;
 
     --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
+    --card-foreground: 200 15% 25%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 27%;
+    --popover-foreground: 200 15% 25%;
 
-    --primary: 217 91% 60%;
+    --primary: 200 98% 55%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 215 25% 27%;
+    --secondary: 200 40% 96%;
+    --secondary-foreground: 200 15% 25%;
 
-    --muted: 217 10% 95%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 200 10% 95%;
+    --muted-foreground: 200 16% 47%;
 
-    --accent: 217 91% 60%;
+    --accent: 200 98% 55%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 20% 89%;
-    --input: 217 20% 89%;
-    --ring: 217 91% 60%;
+    --border: 200 20% 89%;
+    --input: 200 20% 89%;
+    --ring: 200 98% 55%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 217 32% 17%;
-    --sidebar-foreground: 215 20% 65%;
-    --sidebar-primary: 217 91% 60%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 200 15% 25%;
+    --sidebar-primary: 200 98% 55%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 217 10% 25%;
-    --sidebar-accent-foreground: 215 20% 65%;
-    --sidebar-border: 217 20% 25%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-accent: 200 20% 96%;
+    --sidebar-accent-foreground: 200 15% 25%;
+    --sidebar-border: 200 20% 89%;
+    --sidebar-ring: 200 98% 55%;
 
-    /* Geofencing app specific colors */
-    --security-50: 217 100% 97%;
-    --security-100: 217 96% 91%;
-    --security-500: 217 91% 60%;
-    --security-600: 217 91% 55%;
-    --security-700: 217 85% 45%;
-    --security-900: 217 83% 25%;
+    /* Walking buddy app specific colors */
+    --safety-50: 200 100% 97%;
+    --safety-100: 200 96% 91%;
+    --safety-500: 200 98% 55%;
+    --safety-600: 200 98% 50%;
+    --safety-700: 200 85% 45%;
+    --safety-900: 200 83% 25%;
 
     --warning-50: 48 100% 96%;
     --warning-500: 38 92% 50%;
@@ -64,65 +64,79 @@
     --success-500: 138 62% 47%;
     --success-600: 138 77% 40%;
 
-    --fence-active: 217 91% 60%;
-    --fence-inactive: 215 16% 47%;
+    --danger-50: 0 100% 97%;
+    --danger-500: 0 84% 60%;
+    --danger-600: 0 84% 55%;
+
+    --buddy-online: 138 62% 47%;
+    --buddy-offline: 200 16% 47%;
+    --safe-zone: 138 62% 47%;
+    --danger-zone: 0 84% 60%;
+    --caution-zone: 38 92% 50%;
   }
 
   .dark {
-    --background: 217 32% 8%;
+    --background: 200 32% 8%;
     --foreground: 210 40% 98%;
 
-    --card: 217 32% 12%;
+    --card: 200 32% 12%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 217 32% 12%;
+    --popover: 200 32% 12%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 217 91% 60%;
-    --primary-foreground: 217 32% 8%;
+    --primary: 200 98% 55%;
+    --primary-foreground: 200 32% 8%;
 
-    --secondary: 217 32% 17%;
+    --secondary: 200 32% 17%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 32% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 200 32% 17%;
+    --muted-foreground: 200 20% 65%;
 
-    --accent: 217 91% 60%;
-    --accent-foreground: 217 32% 8%;
+    --accent: 200 98% 55%;
+    --accent-foreground: 200 32% 8%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 32% 17%;
-    --input: 217 32% 17%;
-    --ring: 217 91% 60%;
-    --sidebar-background: 217 32% 5%;
-    --sidebar-foreground: 215 20% 65%;
-    --sidebar-primary: 217 91% 60%;
-    --sidebar-primary-foreground: 217 32% 8%;
-    --sidebar-accent: 217 32% 17%;
-    --sidebar-accent-foreground: 215 20% 65%;
-    --sidebar-border: 217 32% 17%;
-    --sidebar-ring: 217 91% 60%;
+    --border: 200 32% 17%;
+    --input: 200 32% 17%;
+    --ring: 200 98% 55%;
+    --sidebar-background: 200 32% 5%;
+    --sidebar-foreground: 200 20% 65%;
+    --sidebar-primary: 200 98% 55%;
+    --sidebar-primary-foreground: 200 32% 8%;
+    --sidebar-accent: 200 32% 17%;
+    --sidebar-accent-foreground: 200 20% 65%;
+    --sidebar-border: 200 32% 17%;
+    --sidebar-ring: 200 98% 55%;
 
-    /* Dark mode geofencing colors */
-    --security-50: 217 32% 12%;
-    --security-100: 217 32% 17%;
-    --security-500: 217 91% 60%;
-    --security-600: 217 91% 55%;
-    --security-700: 217 85% 50%;
-    --security-900: 217 91% 70%;
+    /* Dark mode walking buddy colors */
+    --safety-50: 200 32% 12%;
+    --safety-100: 200 32% 17%;
+    --safety-500: 200 98% 55%;
+    --safety-600: 200 98% 50%;
+    --safety-700: 200 85% 50%;
+    --safety-900: 200 98% 70%;
 
-    --warning-50: 217 32% 12%;
+    --warning-50: 200 32% 12%;
     --warning-500: 38 92% 50%;
     --warning-600: 32 95% 44%;
 
-    --success-50: 217 32% 12%;
+    --success-50: 200 32% 12%;
     --success-500: 138 62% 47%;
     --success-600: 138 77% 40%;
 
-    --fence-active: 217 91% 60%;
-    --fence-inactive: 215 20% 65%;
+    --danger-50: 200 32% 12%;
+    --danger-500: 0 84% 60%;
+    --danger-600: 0 84% 55%;
+
+    --buddy-online: 138 62% 47%;
+    --buddy-offline: 200 20% 65%;
+    --safe-zone: 138 62% 47%;
+    --danger-zone: 0 84% 60%;
+    --caution-zone: 38 92% 50%;
   }
 }
 
@@ -140,8 +154,7 @@
       transform: scale(0.33);
       opacity: 1;
     }
-    80%,
-    100% {
+    80%, 100% {
       transform: scale(2.33);
       opacity: 0;
     }
