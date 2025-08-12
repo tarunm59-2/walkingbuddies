@@ -86,13 +86,9 @@ const App = () => (
 );
 
 const rootElement = document.getElementById("root")!;
-let root: ReturnType<typeof createRoot>;
 
-if (!rootElement.hasChildNodes()) {
-  root = createRoot(rootElement);
-  root.render(<App />);
-} else {
-  // Re-render on existing root for hot reload
-  root = createRoot(rootElement);
+// Create root only once
+if (!rootElement._reactRootContainer) {
+  const root = createRoot(rootElement);
   root.render(<App />);
 }
