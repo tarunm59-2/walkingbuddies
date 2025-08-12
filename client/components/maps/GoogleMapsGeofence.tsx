@@ -61,6 +61,7 @@ const CRIME_ZONES: CrimeZoneData[] = [
 ];
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "YOUR_API_KEY_HERE";
+const IS_DEMO_MODE = !GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === "demo_mode" || GOOGLE_MAPS_API_KEY === "YOUR_API_KEY_HERE";
 
 const getZoneColor = (grade: CrimeZoneData["grade"]) => {
   switch (grade) {
