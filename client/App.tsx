@@ -85,4 +85,14 @@ const App = () => (
   </QueryClientProvider>
 );
 
-createRoot(document.getElementById("root")!).render(<App />);
+const rootElement = document.getElementById("root")!;
+let root: ReturnType<typeof createRoot>;
+
+if (!rootElement.hasChildNodes()) {
+  root = createRoot(rootElement);
+  root.render(<App />);
+} else {
+  // Re-render on existing root for hot reload
+  root = createRoot(rootElement);
+  root.render(<App />);
+}
