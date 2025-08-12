@@ -84,9 +84,9 @@ export default function Layout({ children }: LayoutProps) {
 
           {/* Status indicator */}
           <div className="p-4 border-t border-slate-200">
-            <div className="flex items-center gap-3 rounded-lg bg-success-50 px-3 py-2">
-              <div className="h-2 w-2 rounded-full bg-success-500"></div>
-              <span className="text-sm font-medium text-success-700">System Online</span>
+            <div className="flex items-center gap-3 rounded-lg bg-buddy-online/10 px-3 py-2">
+              <div className="h-2 w-2 rounded-full bg-buddy-online"></div>
+              <span className="text-sm font-medium text-buddy-online">Available for Walking</span>
             </div>
           </div>
         </div>
