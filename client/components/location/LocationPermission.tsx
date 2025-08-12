@@ -11,12 +11,15 @@ interface LocationPermissionProps {
   onManualLocation?: (lat: number, lng: number, address: string) => void;
 }
 
-export default function LocationPermission({ 
-  status, 
-  isTracking, 
-  onRequestPermission, 
-  onUseDemoMode 
+export default function LocationPermission({
+  status,
+  isTracking,
+  onRequestPermission,
+  onUseDemoMode,
+  onManualLocation
 }: LocationPermissionProps) {
+  const [showManualInput, setShowManualInput] = useState(false);
+
   if (status === "granted" && isTracking) {
     return (
       <div className="flex items-center gap-2 rounded-lg bg-green-50 border border-green-200 px-3 py-2 text-sm">
@@ -26,12 +29,31 @@ export default function LocationPermission({
     );
   }
 
+  if (showManualInput && onManualLocation) {
+    return (
+      <div className="space-y-4">
+        <ManualLocationInput
+          onLocationSet={(lat, lng, address) => {
+            onManualLocation(lat, lng, address);
+            setShowManualInput(false);
+          }}
+        />
+        <button
+          onClick={() => setShowManualInput(false)}
+          className="text-sm text-slate-600 hover:text-slate-800 underline"
+        >
+          ← Back to location options
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="rounded-xl bg-white/80 backdrop-blur-sm border border-slate-200 shadow-sm p-6">
       <div className="text-center">
         <div className={cn(
           "inline-flex items-center justify-center w-12 h-12 rounded-full mb-4",
-          status === "denied" 
+          status === "denied"
             ? "bg-warning-100 text-warning-600"
             : "bg-safety-100 text-safety-600"
         )}>
@@ -43,14 +65,14 @@ export default function LocationPermission({
         </div>
 
         <h3 className="text-lg font-semibold text-slate-900 mb-2">
-          {status === "denied" 
-            ? "Location Access Needed" 
+          {status === "denied"
+            ? "Location Access Needed"
             : "Enable Location Tracking"
           }
         </h3>
 
         <p className="text-slate-600 mb-6 max-w-md">
-          {status === "denied" 
+          {status === "denied"
             ? "Location access was denied. SafeWalk needs your location to detect when you enter high-crime areas and automatically find walking buddies."
             : "Allow location access to enable real-time safety features including crime zone detection and automatic buddy matching."
           }
@@ -64,6 +86,16 @@ export default function LocationPermission({
             <RefreshCw className="h-4 w-4" />
             {status === "denied" ? "Try Again" : "Enable Location"}
           </button>
+
+          {onManualLocation && (
+            <button
+              onClick={() => setShowManualInput(true)}
+              className="inline-flex items-center gap-2 rounded-lg bg-white border border-slate-300 px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors w-full justify-center"
+            >
+              <Edit3 className="h-4 w-4" />
+              Enter Location Manually
+            </button>
+          )}
 
           <button
             onClick={onUseDemoMode}
