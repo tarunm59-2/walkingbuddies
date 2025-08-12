@@ -1,11 +1,14 @@
-import { MapPin, Shield, AlertTriangle, RefreshCw } from "lucide-react";
+import { useState } from "react";
+import { MapPin, Shield, AlertTriangle, RefreshCw, Edit3 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import ManualLocationInput from "./ManualLocationInput";
 
 interface LocationPermissionProps {
   status: "granted" | "denied" | "prompt";
   isTracking: boolean;
   onRequestPermission: () => void;
   onUseDemoMode: () => void;
+  onManualLocation?: (lat: number, lng: number, address: string) => void;
 }
 
 export default function LocationPermission({ 
