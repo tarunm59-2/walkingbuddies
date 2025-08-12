@@ -148,6 +148,11 @@ export default function Index() {
               // Use demo mode - this could trigger demo location
               console.log("Using demo mode");
             }}
+            onManualLocation={(lat, lng, address) => {
+              // Handle manual location input
+              console.log(`Manual location set: ${address} (${lat}, ${lng})`);
+              // This would simulate a location update in the geofencing system
+            }}
           />
         </div>
       )}
