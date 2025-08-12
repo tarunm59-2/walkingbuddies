@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { crimeDataService, type GeofenceZone } from "@/services/crimeDataService";
+import { errorLogger } from "@/services/errorLogger";
 
 export interface GeofenceAlert {
   id: string;
