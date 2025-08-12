@@ -146,17 +146,39 @@ export default function GoogleMapsGeofence() {
   // Request location permission and start tracking
   const requestLocationPermission = async () => {
     if (!navigator.geolocation) {
-      console.error("Geolocation not supported");
+      console.error("Geolocation not supported in this browser");
+      setLocationPermission("denied");
+      // Use demo location
+      updateUserLocation({ lat: 40.7589, lng: -73.9851 });
       return;
     }
 
     try {
       const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-          enableHighAccuracy: true,
-          timeout: 10000,
-          maximumAge: 0
-        });
+        navigator.geolocation.getCurrentPosition(
+          resolve,
+          (error) => {
+            let errorMessage = "Unknown location error";
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                errorMessage = "Location access denied. Using demo mode.";
+                break;
+              case error.POSITION_UNAVAILABLE:
+                errorMessage = "Location unavailable. Using demo mode.";
+                break;
+              case error.TIMEOUT:
+                errorMessage = "Location request timed out. Using demo mode.";
+                break;
+            }
+            console.log(errorMessage);
+            reject(new Error(errorMessage));
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 15000,
+            maximumAge: 60000
+          }
+        );
       });
 
       setLocationPermission("granted");
@@ -173,16 +195,32 @@ export default function GoogleMapsGeofence() {
             lng: pos.coords.longitude
           });
         },
-        (error) => console.error("Location error:", error),
+        (error) => {
+          let errorMessage = "Location tracking error";
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              errorMessage = "Location permission revoked";
+              setLocationPermission("denied");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              errorMessage = "Location temporarily unavailable";
+              break;
+            case error.TIMEOUT:
+              errorMessage = "Location update timed out";
+              break;
+          }
+          console.log(errorMessage);
+        },
         {
-          enableHighAccuracy: true,
-          maximumAge: 30000, // 30 seconds
-          timeout: 10000
+          enableHighAccuracy: false,
+          maximumAge: 60000,
+          timeout: 15000
         }
       );
 
     } catch (error) {
-      console.error("Permission denied or error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Failed to get location";
+      console.log(errorMessage);
       setLocationPermission("denied");
       // Fallback to Manhattan center for demo
       updateUserLocation({ lat: 40.7589, lng: -73.9851 });
