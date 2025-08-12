@@ -29,7 +29,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
       {/* Sidebar */}
-      <div className="fixed inset-y-0 left-0 z-50 w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-xl">
+      <div className="fixed inset-y-0 left-0 z-50 w-64 bg-white/80 backdrop-blur-xl border-r border-slate-200 shadow-xl hidden lg:block">
         <div className="flex h-full flex-col">
           {/* Logo */}
           <div className="flex h-16 items-center gap-3 px-6 border-b border-slate-200">
@@ -69,8 +69,8 @@ export default function Layout({ children }: LayoutProps) {
                   {item.badge && (
                     <span className={cn(
                       "inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium",
-                      isActive 
-                        ? "bg-white/20 text-white" 
+                      isActive
+                        ? "bg-white/20 text-white"
                         : "bg-warning-500 text-white"
                     )}>
                       {item.badge}
@@ -91,8 +91,31 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </div>
 
+      {/* Mobile header */}
+      <div className="lg:hidden bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm sticky top-0 z-40">
+        <div className="flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-security-500 to-security-600">
+              <Shield className="h-5 w-5 text-white" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-lg font-bold bg-gradient-to-r from-security-600 to-security-700 bg-clip-text text-transparent">
+                GeoGuard
+              </span>
+              <span className="text-xs text-slate-500">Security Platform</span>
+            </div>
+          </div>
+
+          {/* Mobile status */}
+          <div className="flex items-center gap-2 rounded-lg bg-success-50 px-2 py-1">
+            <div className="h-1.5 w-1.5 rounded-full bg-success-500"></div>
+            <span className="text-xs font-medium text-success-700">Online</span>
+          </div>
+        </div>
+      </div>
+
       {/* Main content */}
-      <div className="pl-64">
+      <div className="lg:pl-64">
         <main className="min-h-screen">
           {children}
         </main>
