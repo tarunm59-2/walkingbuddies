@@ -137,6 +137,21 @@ export default function Index() {
         />
       </div>
 
+      {/* Location Permission Check */}
+      {geofencing.permissionStatus !== "granted" && !geofencing.isTracking && (
+        <div className="mb-6 lg:mb-8">
+          <LocationPermission
+            status={geofencing.permissionStatus}
+            isTracking={geofencing.isTracking}
+            onRequestPermission={geofencing.startTracking}
+            onUseDemoMode={() => {
+              // Use demo mode - this could trigger demo location
+              console.log("Using demo mode");
+            }}
+          />
+        </div>
+      )}
+
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Left Column - Real Google Maps */}
