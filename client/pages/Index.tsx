@@ -53,6 +53,15 @@ const mockBuddies = [
 ];
 
 export default function Index() {
+  const geofencing = useGeofencing();
+
+  // Start tracking on component mount
+  React.useEffect(() => {
+    if (!geofencing.isTracking && geofencing.permissionStatus === "prompt") {
+      geofencing.startTracking();
+    }
+  }, []);
+
   return (
     <div className="p-4 lg:p-8">
       {/* Header */}
@@ -63,6 +72,32 @@ export default function Index() {
         <p className="text-slate-600 mt-2 text-sm lg:text-base">
           Stay safe in high-crime areas by walking with trusted companions
         </p>
+
+        {/* Real-time alerts */}
+        {geofencing.alerts.length > 0 && (
+          <div className="mt-4 space-y-2">
+            {geofencing.alerts.slice(-2).map((alert) => (
+              <div
+                key={alert.id}
+                className={`p-3 rounded-lg border text-sm ${
+                  alert.severity === "high"
+                    ? "bg-red-50 border-red-200 text-red-700"
+                    : alert.severity === "medium"
+                    ? "bg-warning-50 border-warning-200 text-warning-700"
+                    : "bg-green-50 border-green-200 text-green-700"
+                }`}
+              >
+                {alert.message}
+                <button
+                  onClick={() => geofencing.clearAlert(alert.id)}
+                  className="ml-2 text-xs opacity-60 hover:opacity-100"
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Stats Cards */}
@@ -82,29 +117,29 @@ export default function Index() {
           icon={<Heart className="h-5 w-5 lg:h-6 lg:w-6 text-safety-600" />}
         />
         <StatsCard
-          title="High-Risk Areas"
-          value={3}
-          change="2 require buddies"
-          changeType="negative"
+          title="Active Zones"
+          value={geofencing.activeZones.length}
+          change={geofencing.isInDangerZone ? "In danger zone!" : "Safe location"}
+          changeType={geofencing.isInDangerZone ? "negative" : "positive"}
           icon={
             <AlertTriangle className="h-5 w-5 lg:h-6 lg:w-6 text-red-600" />
           }
-          className="border-red-200 bg-red-50/50"
+          className={geofencing.isInDangerZone ? "border-red-200 bg-red-50/50" : ""}
         />
         <StatsCard
-          title="Your Safety Score"
-          value="4.9★"
-          change="98% positive reviews"
-          changeType="positive"
+          title="Buddy Requests"
+          value={geofencing.buddyRequests}
+          change={geofencing.isTracking ? "Tracking location" : "Location off"}
+          changeType={geofencing.isTracking ? "positive" : "neutral"}
           icon={<Shield className="h-5 w-5 lg:h-6 lg:w-6 text-safety-600" />}
         />
       </div>
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
-        {/* Left Column - Crime Map */}
+        {/* Left Column - Real Google Maps */}
         <div className="lg:col-span-2 order-1 lg:order-1">
-          <CrimeZoneMap />
+          <GoogleMapsGeofence />
         </div>
 
         {/* Right Column - Buddy Matcher */}
