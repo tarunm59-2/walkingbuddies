@@ -93,6 +93,13 @@ export default function GoogleMapsGeofence() {
   // Initialize Google Maps
   useEffect(() => {
     const initMap = async () => {
+      if (IS_DEMO_MODE) {
+        setIsLoading(false);
+        // In demo mode, simulate some location data
+        await requestLocationPermission();
+        return;
+      }
+
       try {
         const loader = new Loader({
           apiKey: GOOGLE_MAPS_API_KEY,
