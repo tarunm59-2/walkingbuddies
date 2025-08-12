@@ -17,15 +17,15 @@ const mockActivity: ActivityItem[] = [
     device: "iPhone 14 Pro",
     location: "Restricted Zone A",
     timestamp: "2 minutes ago",
-    severity: "high"
+    severity: "high",
   },
   {
-    id: "2", 
+    id: "2",
     type: "entry",
     device: "Samsung Galaxy S23",
     location: "Main Campus",
     timestamp: "5 minutes ago",
-    severity: "low"
+    severity: "low",
   },
   {
     id: "3",
@@ -33,7 +33,7 @@ const mockActivity: ActivityItem[] = [
     device: "Admin User",
     location: "New Perimeter Zone",
     timestamp: "10 minutes ago",
-    severity: "medium"
+    severity: "medium",
   },
   {
     id: "4",
@@ -41,8 +41,8 @@ const mockActivity: ActivityItem[] = [
     device: "iPad Air",
     location: "Secure Area B",
     timestamp: "15 minutes ago",
-    severity: "low"
-  }
+    severity: "low",
+  },
 ];
 
 const getActivityIcon = (type: ActivityItem["type"]) => {
@@ -95,18 +95,20 @@ export default function ActivityFeed() {
         <h3 className="text-lg font-semibold text-slate-900">Live Activity</h3>
         <p className="text-sm text-slate-600 mt-1">Real-time security events</p>
       </div>
-      
+
       <div className="p-6">
         <div className="space-y-4">
           {mockActivity.map((item) => (
             <div key={item.id} className="flex items-start gap-4">
-              <div className={cn(
-                "flex h-8 w-8 items-center justify-center rounded-full border",
-                getActivityColor(item.severity)
-              )}>
+              <div
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-full border",
+                  getActivityColor(item.severity),
+                )}
+              >
                 {getActivityIcon(item.type)}
               </div>
-              
+
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-slate-900 font-medium">
                   {getActivityText(item)}
@@ -116,7 +118,7 @@ export default function ActivityFeed() {
                   {item.timestamp}
                 </p>
               </div>
-              
+
               {item.severity === "high" && (
                 <div className="flex-shrink-0">
                   <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-800">
@@ -127,7 +129,7 @@ export default function ActivityFeed() {
             </div>
           ))}
         </div>
-        
+
         <button className="w-full mt-4 text-sm text-security-600 hover:text-security-700 font-medium">
           View all activity →
         </button>

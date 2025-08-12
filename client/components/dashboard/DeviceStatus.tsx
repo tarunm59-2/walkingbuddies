@@ -1,4 +1,11 @@
-import { Smartphone, Tablet, Laptop, Shield, AlertTriangle, Clock } from "lucide-react";
+import {
+  Smartphone,
+  Tablet,
+  Laptop,
+  Shield,
+  AlertTriangle,
+  Clock,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Device {
@@ -19,16 +26,16 @@ const mockDevices: Device[] = [
     status: "unauthorized",
     location: "Restricted Zone A",
     lastSeen: "Now",
-    battery: 78
+    battery: 78,
   },
   {
     id: "2",
     name: "Samsung Galaxy S23",
-    type: "mobile", 
+    type: "mobile",
     status: "authorized",
     location: "Main Campus",
     lastSeen: "2 min ago",
-    battery: 92
+    battery: 92,
   },
   {
     id: "3",
@@ -37,7 +44,7 @@ const mockDevices: Device[] = [
     status: "authorized",
     location: "Conference Room",
     lastSeen: "5 min ago",
-    battery: 45
+    battery: 45,
   },
   {
     id: "4",
@@ -45,8 +52,8 @@ const mockDevices: Device[] = [
     type: "laptop",
     status: "pending",
     location: "Entrance",
-    lastSeen: "1 min ago"
-  }
+    lastSeen: "1 min ago",
+  },
 ];
 
 const getDeviceIcon = (type: Device["type"]) => {
@@ -79,7 +86,7 @@ const getStatusColor = (status: Device["status"]) => {
   switch (status) {
     case "authorized":
       return "text-success-700 bg-success-50";
-    case "unauthorized": 
+    case "unauthorized":
       return "text-red-700 bg-red-50";
     case "pending":
       return "text-warning-700 bg-warning-50";
@@ -94,52 +101,65 @@ export default function DeviceStatus() {
       <div className="p-6 border-b border-slate-200">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">Device Status</h3>
-            <p className="text-sm text-slate-600 mt-1">Recent device activity</p>
+            <h3 className="text-lg font-semibold text-slate-900">
+              Device Status
+            </h3>
+            <p className="text-sm text-slate-600 mt-1">
+              Recent device activity
+            </p>
           </div>
           <button className="text-sm text-security-600 hover:text-security-700 font-medium">
             View all →
           </button>
         </div>
       </div>
-      
+
       <div className="p-6">
         <div className="space-y-4">
           {mockDevices.map((device) => (
-            <div key={device.id} className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors">
+            <div
+              key={device.id}
+              className="flex items-center justify-between p-4 rounded-lg border border-slate-200 hover:border-slate-300 transition-colors"
+            >
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100">
                   {getDeviceIcon(device.type)}
                 </div>
-                
+
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="font-medium text-slate-900">{device.name}</p>
-                    <span className={cn(
-                      "inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium",
-                      getStatusColor(device.status)
-                    )}>
+                    <span
+                      className={cn(
+                        "inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium",
+                        getStatusColor(device.status),
+                      )}
+                    >
                       {getStatusIcon(device.status)}
                       {device.status}
                     </span>
                   </div>
                   <div className="flex items-center gap-4 mt-1">
                     <p className="text-sm text-slate-500">{device.location}</p>
-                    <p className="text-sm text-slate-400">• {device.lastSeen}</p>
+                    <p className="text-sm text-slate-400">
+                      • {device.lastSeen}
+                    </p>
                     {device.battery && (
-                      <p className="text-sm text-slate-400">• {device.battery}% battery</p>
+                      <p className="text-sm text-slate-400">
+                        • {device.battery}% battery
+                      </p>
                     )}
                   </div>
                 </div>
               </div>
-              
+
               {device.status === "unauthorized" && (
                 <button className="inline-flex items-center gap-1 rounded-lg bg-red-100 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-200 transition-colors">
                   <AlertTriangle className="h-4 w-4" />
                   Block
                 </button>
               )}
-              
+
               {device.status === "pending" && (
                 <div className="flex gap-2">
                   <button className="rounded-lg bg-success-100 px-3 py-2 text-sm font-medium text-success-700 hover:bg-success-200 transition-colors">

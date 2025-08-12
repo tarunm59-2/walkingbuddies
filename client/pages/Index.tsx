@@ -1,4 +1,11 @@
-import { Shield, MapPin, Users, AlertTriangle, Activity, Zap } from "lucide-react";
+import {
+  Shield,
+  MapPin,
+  Users,
+  AlertTriangle,
+  Activity,
+  Zap,
+} from "lucide-react";
 import StatsCard from "@/components/dashboard/StatsCard";
 import ActivityFeed from "@/components/dashboard/ActivityFeed";
 import GeofenceMap from "@/components/dashboard/GeofenceMap";
@@ -38,7 +45,9 @@ export default function Index() {
           value={3}
           change="2 critical"
           changeType="negative"
-          icon={<AlertTriangle className="h-5 w-5 lg:h-6 lg:w-6 text-red-600" />}
+          icon={
+            <AlertTriangle className="h-5 w-5 lg:h-6 lg:w-6 text-red-600" />
+          }
           className="border-red-200 bg-red-50/50"
         />
         <StatsCard
