@@ -10,26 +10,26 @@ interface StatsCardProps {
   className?: string;
 }
 
-export default function StatsCard({ 
-  title, 
-  value, 
-  change, 
-  changeType = "neutral", 
-  icon, 
-  className 
+export default function StatsCard({
+  title,
+  value,
+  change,
+  changeType = "neutral",
+  icon,
+  className
 }: StatsCardProps) {
   return (
     <div className={cn(
-      "relative overflow-hidden rounded-xl bg-white/80 backdrop-blur-sm border border-slate-200 p-6 shadow-sm hover:shadow-md transition-all duration-200",
+      "relative overflow-hidden rounded-xl bg-white/80 backdrop-blur-sm border border-slate-200 p-4 lg:p-6 shadow-sm hover:shadow-md transition-all duration-200",
       className
     )}>
       <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-slate-600">{title}</p>
-          <p className="text-3xl font-bold text-slate-900 mt-1">{value}</p>
+        <div className="flex-1 min-w-0">
+          <p className="text-xs lg:text-sm font-medium text-slate-600 truncate">{title}</p>
+          <p className="text-xl lg:text-3xl font-bold text-slate-900 mt-1">{value}</p>
           {change && (
             <p className={cn(
-              "text-sm mt-2 flex items-center gap-1",
+              "text-xs lg:text-sm mt-1 lg:mt-2 flex items-center gap-1 truncate",
               changeType === "positive" && "text-success-600",
               changeType === "negative" && "text-warning-600",
               changeType === "neutral" && "text-slate-500"
@@ -38,7 +38,7 @@ export default function StatsCard({
             </p>
           )}
         </div>
-        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br from-security-50 to-security-100">
+        <div className="flex h-10 w-10 lg:h-12 lg:w-12 items-center justify-center rounded-lg bg-gradient-to-br from-security-50 to-security-100 flex-shrink-0 ml-2">
           {icon}
         </div>
       </div>
