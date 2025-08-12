@@ -96,21 +96,21 @@ export default function Layout({ children }: LayoutProps) {
       <div className="lg:hidden bg-white/80 backdrop-blur-xl border-b border-slate-200 shadow-sm sticky top-0 z-40">
         <div className="flex h-16 items-center justify-between px-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-security-500 to-security-600">
-              <Shield className="h-5 w-5 text-white" />
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-safety-500 to-safety-600">
+              <Heart className="h-5 w-5 text-white" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold bg-gradient-to-r from-security-600 to-security-700 bg-clip-text text-transparent">
-                GeoGuard
+              <span className="text-lg font-bold bg-gradient-to-r from-safety-600 to-safety-700 bg-clip-text text-transparent">
+                SafeWalk
               </span>
-              <span className="text-xs text-slate-500">Security Platform</span>
+              <span className="text-xs text-slate-500">Walking Buddy</span>
             </div>
           </div>
 
           {/* Mobile status */}
-          <div className="flex items-center gap-2 rounded-lg bg-success-50 px-2 py-1">
-            <div className="h-1.5 w-1.5 rounded-full bg-success-500"></div>
-            <span className="text-xs font-medium text-success-700">Online</span>
+          <div className="flex items-center gap-2 rounded-lg bg-buddy-online/10 px-2 py-1">
+            <div className="h-1.5 w-1.5 rounded-full bg-buddy-online"></div>
+            <span className="text-xs font-medium text-buddy-online">Available</span>
           </div>
         </div>
       </div>
