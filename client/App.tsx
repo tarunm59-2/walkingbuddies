@@ -23,38 +23,47 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route
-              path="/geofences"
+              path="/safety-map"
               element={
                 <PlaceholderPage
-                  title="Geofence Management"
-                  description="Create and manage geographic boundaries for device monitoring. Set up virtual perimeters and configure alert rules."
+                  title="Safety Map"
+                  description="View crime data by zipcode and see real-time safety zones. Avoid high-crime areas and find safe routes."
                 />
               }
             />
             <Route
-              path="/devices"
+              path="/buddies"
               element={
                 <PlaceholderPage
-                  title="Device Management"
-                  description="Monitor and control authorized and unauthorized devices within your geofences. View device status and location history."
+                  title="My Walking Buddies"
+                  description="Manage your trusted walking partners, view their profiles, and see availability for safe walks."
                 />
               }
             />
             <Route
-              path="/alerts"
+              path="/messages"
               element={
                 <PlaceholderPage
-                  title="Security Alerts"
-                  description="View and manage security alerts for unauthorized device entries and geofence violations."
+                  title="Messages"
+                  description="Chat with your walking buddies, coordinate meetups, and share safety updates."
                 />
               }
             />
             <Route
-              path="/users"
+              path="/safe-places"
               element={
                 <PlaceholderPage
-                  title="User Management"
-                  description="Manage user accounts, permissions, and access levels for your security platform."
+                  title="Safe Meeting Places"
+                  description="Discover vetted safe meeting spots like 24/7 stores, police stations, and well-lit public areas."
+                />
+              }
+            />
+            <Route
+              path="/reviews"
+              element={
+                <PlaceholderPage
+                  title="Reviews & Ratings"
+                  description="Rate your walking experiences and review safety buddies to help build a trusted community."
                 />
               }
             />
