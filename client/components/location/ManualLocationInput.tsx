@@ -6,7 +6,7 @@ interface ManualLocationInputProps {
 }
 
 const COMMON_LOCATIONS = [
-  { name: "Times Square, NYC", lat: 40.7580, lng: -73.9855 },
+  { name: "Times Square, NYC", lat: 40.758, lng: -73.9855 },
   { name: "Central Park, NYC", lat: 40.7829, lng: -73.9654 },
   { name: "Brooklyn Bridge, NYC", lat: 40.7061, lng: -73.9969 },
   { name: "East Village, NYC", lat: 40.7265, lng: -73.9815 },
@@ -14,23 +14,25 @@ const COMMON_LOCATIONS = [
   { name: "Chelsea, NYC", lat: 40.7465, lng: -73.9973 },
 ];
 
-export default function ManualLocationInput({ onLocationSet }: ManualLocationInputProps) {
+export default function ManualLocationInput({
+  onLocationSet,
+}: ManualLocationInputProps) {
   const [address, setAddress] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
   const handleSearch = async () => {
     if (!address.trim()) return;
-    
+
     setIsSearching(true);
     try {
       // In a real implementation, you'd use Google Geocoding API
       // For now, we'll simulate a search
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Mock geocoding result for Manhattan
       const lat = 40.7589 + (Math.random() - 0.5) * 0.01;
       const lng = -73.9851 + (Math.random() - 0.5) * 0.01;
-      
+
       onLocationSet(lat, lng, address);
     } catch (error) {
       console.error("Geocoding error:", error);
@@ -39,7 +41,7 @@ export default function ManualLocationInput({ onLocationSet }: ManualLocationInp
     }
   };
 
-  const handleQuickSelect = (location: typeof COMMON_LOCATIONS[0]) => {
+  const handleQuickSelect = (location: (typeof COMMON_LOCATIONS)[0]) => {
     onLocationSet(location.lat, location.lng, location.name);
   };
 
@@ -97,8 +99,9 @@ export default function ManualLocationInput({ onLocationSet }: ManualLocationInp
 
       <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-200">
         <p className="text-xs text-slate-600">
-          💡 <strong>Tip:</strong> For the best experience, enable location access in your browser settings. 
-          Manual location won't provide real-time tracking for safety features.
+          💡 <strong>Tip:</strong> For the best experience, enable location
+          access in your browser settings. Manual location won't provide
+          real-time tracking for safety features.
         </p>
       </div>
     </div>

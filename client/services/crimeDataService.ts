@@ -42,7 +42,7 @@ class CrimeDataService {
     try {
       // For now, using mock data that simulates crimegrade.org structure
       const mockData = this.getMockCrimeData(zipcode);
-      
+
       if (mockData) {
         this.cache.set(zipcode, mockData);
         this.cacheExpiry.set(zipcode, Date.now() + this.CACHE_DURATION);
@@ -56,17 +56,20 @@ class CrimeDataService {
       //     'Content-Type': 'application/json'
       //   }
       // });
-      // 
+      //
       // if (!response.ok) {
       //   throw new Error(`Crime data API error: ${response.status}`);
       // }
-      // 
+      //
       // const data = await response.json();
       // return this.normalizeCrimeData(data);
 
       return null;
     } catch (error) {
-      console.error(`Failed to fetch crime data for zipcode ${zipcode}:`, error);
+      console.error(
+        `Failed to fetch crime data for zipcode ${zipcode}:`,
+        error,
+      );
       return null;
     }
   }
@@ -76,27 +79,30 @@ class CrimeDataService {
    */
   async getCrimeDataBatch(zipcodes: string[]): Promise<CrimeGradeData[]> {
     const results = await Promise.allSettled(
-      zipcodes.map(zipcode => this.getCrimeDataByZipcode(zipcode))
+      zipcodes.map((zipcode) => this.getCrimeDataByZipcode(zipcode)),
     );
 
     return results
-      .filter((result): result is PromiseFulfilledResult<CrimeGradeData> => 
-        result.status === 'fulfilled' && result.value !== null
+      .filter(
+        (result): result is PromiseFulfilledResult<CrimeGradeData> =>
+          result.status === "fulfilled" && result.value !== null,
       )
-      .map(result => result.value);
+      .map((result) => result.value);
   }
 
   /**
    * Convert zipcode to approximate lat/lng coordinates
    * In production, use a proper geocoding service
    */
-  async getCoordinatesForZipcode(zipcode: string): Promise<{ lat: number; lng: number } | null> {
+  async getCoordinatesForZipcode(
+    zipcode: string,
+  ): Promise<{ lat: number; lng: number } | null> {
     const mockCoordinates: Record<string, { lat: number; lng: number }> = {
       "10001": { lat: 40.7505, lng: -73.9934 }, // Chelsea
       "10002": { lat: 40.7209, lng: -73.9896 }, // Lower East Side
       "10003": { lat: 40.7316, lng: -73.9938 }, // Greenwich Village
       "10004": { lat: 40.7041, lng: -74.0125 }, // Financial District
-      "10009": { lat: 40.7260, lng: -73.9816 }, // East Village
+      "10009": { lat: 40.726, lng: -73.9816 }, // East Village
       "10010": { lat: 40.7388, lng: -73.9842 }, // Flatiron
       "10011": { lat: 40.7404, lng: -74.0014 }, // Chelsea
       "10012": { lat: 40.7251, lng: -74.0036 }, // SoHo
@@ -128,21 +134,21 @@ class CrimeDataService {
     for (const zipcode of zipcodes) {
       const [crimeData, coordinates] = await Promise.all([
         this.getCrimeDataByZipcode(zipcode),
-        this.getCoordinatesForZipcode(zipcode)
+        this.getCoordinatesForZipcode(zipcode),
       ]);
 
       if (crimeData && coordinates) {
         const radius = this.calculateGeofenceRadius(crimeData.grade);
-        
+
         zones.push({
           zipcode: crimeData.zipcode,
           area: crimeData.area,
           grade: crimeData.grade,
-          crimeRate: crimeData.totalCrime / crimeData.population * 1000,
+          crimeRate: (crimeData.totalCrime / crimeData.population) * 1000,
           lat: coordinates.lat,
           lng: coordinates.lng,
           radius,
-          lastUpdated: new Date()
+          lastUpdated: new Date(),
         });
       }
     }
@@ -164,13 +170,13 @@ class CrimeDataService {
   private calculateGeofenceRadius(grade: CrimeGradeData["grade"]): number {
     const radiusMap: Record<CrimeGradeData["grade"], number> = {
       "A+": 200, // Smaller radius for very safe areas
-      "A": 300,
-      "B": 400,
-      "C": 500,  // Larger radius for dangerous areas
-      "D": 600,
-      "F": 800
+      A: 300,
+      B: 400,
+      C: 500, // Larger radius for dangerous areas
+      D: 600,
+      F: 800,
     };
-    
+
     return radiusMap[grade] || 400;
   }
 
@@ -190,7 +196,7 @@ class CrimeDataService {
         population: 85000,
         area: "Chelsea",
         state: "NY",
-        city: "New York"
+        city: "New York",
       },
       "10002": {
         zipcode: "10002",
@@ -201,8 +207,8 @@ class CrimeDataService {
         totalCrime: 1390,
         population: 74000,
         area: "Lower East Side",
-        state: "NY", 
-        city: "New York"
+        state: "NY",
+        city: "New York",
       },
       "10003": {
         zipcode: "10003",
@@ -214,7 +220,7 @@ class CrimeDataService {
         population: 65000,
         area: "Greenwich Village",
         state: "NY",
-        city: "New York"
+        city: "New York",
       },
       "10004": {
         zipcode: "10004",
@@ -226,7 +232,7 @@ class CrimeDataService {
         population: 46000,
         area: "Financial District",
         state: "NY",
-        city: "New York"
+        city: "New York",
       },
       "10009": {
         zipcode: "10009",
@@ -238,8 +244,8 @@ class CrimeDataService {
         population: 78000,
         area: "East Village",
         state: "NY",
-        city: "New York"
-      }
+        city: "New York",
+      },
     };
 
     return mockData[zipcode] || null;
@@ -260,7 +266,7 @@ class CrimeDataService {
       population: rawData.population,
       area: rawData.area || rawData.neighborhood,
       state: rawData.state,
-      city: rawData.city
+      city: rawData.city,
     };
   }
 

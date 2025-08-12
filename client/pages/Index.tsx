@@ -85,8 +85,8 @@ export default function Index() {
                   alert.severity === "high"
                     ? "bg-red-50 border-red-200 text-red-700"
                     : alert.severity === "medium"
-                    ? "bg-warning-50 border-warning-200 text-warning-700"
-                    : "bg-green-50 border-green-200 text-green-700"
+                      ? "bg-warning-50 border-warning-200 text-warning-700"
+                      : "bg-green-50 border-green-200 text-green-700"
                 }`}
               >
                 {alert.message}
@@ -121,12 +121,16 @@ export default function Index() {
         <StatsCard
           title="Active Zones"
           value={geofencing.activeZones.length}
-          change={geofencing.isInDangerZone ? "In danger zone!" : "Safe location"}
+          change={
+            geofencing.isInDangerZone ? "In danger zone!" : "Safe location"
+          }
           changeType={geofencing.isInDangerZone ? "negative" : "positive"}
           icon={
             <AlertTriangle className="h-5 w-5 lg:h-6 lg:w-6 text-red-600" />
           }
-          className={geofencing.isInDangerZone ? "border-red-200 bg-red-50/50" : ""}
+          className={
+            geofencing.isInDangerZone ? "border-red-200 bg-red-50/50" : ""
+          }
         />
         <StatsCard
           title="Buddy Requests"

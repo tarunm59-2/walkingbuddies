@@ -16,7 +16,7 @@ export default function LocationPermission({
   isTracking,
   onRequestPermission,
   onUseDemoMode,
-  onManualLocation
+  onManualLocation,
 }: LocationPermissionProps) {
   const [showManualInput, setShowManualInput] = useState(false);
 
@@ -51,12 +51,14 @@ export default function LocationPermission({
   return (
     <div className="rounded-xl bg-white/80 backdrop-blur-sm border border-slate-200 shadow-sm p-6">
       <div className="text-center">
-        <div className={cn(
-          "inline-flex items-center justify-center w-12 h-12 rounded-full mb-4",
-          status === "denied"
-            ? "bg-warning-100 text-warning-600"
-            : "bg-safety-100 text-safety-600"
-        )}>
+        <div
+          className={cn(
+            "inline-flex items-center justify-center w-12 h-12 rounded-full mb-4",
+            status === "denied"
+              ? "bg-warning-100 text-warning-600"
+              : "bg-safety-100 text-safety-600",
+          )}
+        >
           {status === "denied" ? (
             <AlertTriangle className="h-6 w-6" />
           ) : (
@@ -67,15 +69,13 @@ export default function LocationPermission({
         <h3 className="text-lg font-semibold text-slate-900 mb-2">
           {status === "denied"
             ? "Location Access Needed"
-            : "Enable Location Tracking"
-          }
+            : "Enable Location Tracking"}
         </h3>
 
         <p className="text-slate-600 mb-6 max-w-md">
           {status === "denied"
             ? "Location access was denied. SafeWalk needs your location to detect when you enter high-crime areas and automatically find walking buddies."
-            : "Allow location access to enable real-time safety features including crime zone detection and automatic buddy matching."
-          }
+            : "Allow location access to enable real-time safety features including crime zone detection and automatic buddy matching."}
         </p>
 
         <div className="space-y-3">
@@ -112,7 +112,9 @@ export default function LocationPermission({
               How to enable location:
             </h4>
             <div className="text-xs text-slate-600 space-y-1">
-              <div>1. Click the location icon in your browser's address bar</div>
+              <div>
+                1. Click the location icon in your browser's address bar
+              </div>
               <div>2. Select "Allow" for location access</div>
               <div>3. Refresh the page if needed</div>
             </div>

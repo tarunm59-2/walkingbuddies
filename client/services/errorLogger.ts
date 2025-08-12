@@ -19,7 +19,7 @@ class ErrorLogger {
     let errorDetails: any = {
       code: error.code,
       message: error.message,
-      context
+      context,
     };
 
     switch (error.code) {
@@ -37,7 +37,7 @@ class ErrorLogger {
     this.addLog({
       type: "geolocation",
       error: errorMessage,
-      details: errorDetails
+      details: errorDetails,
     });
   }
 
@@ -45,7 +45,7 @@ class ErrorLogger {
     this.addLog({
       type: "permission",
       error: `Permission ${permission} was ${status}`,
-      details: { permission, status }
+      details: { permission, status },
     });
   }
 
@@ -53,7 +53,7 @@ class ErrorLogger {
     this.addLog({
       type: "maps",
       error: error.message,
-      details: { context, stack: error.stack }
+      details: { context, stack: error.stack },
     });
   }
 
@@ -61,24 +61,26 @@ class ErrorLogger {
     this.addLog({
       type: "api",
       error: typeof error === "string" ? error : error.message,
-      details: { 
-        endpoint, 
-        stack: typeof error === "object" ? error.stack : undefined 
-      }
+      details: {
+        endpoint,
+        stack: typeof error === "object" ? error.stack : undefined,
+      },
     });
   }
 
-  private addLog(logData: Omit<ErrorLog, "id" | "timestamp" | "userAgent" | "url">) {
+  private addLog(
+    logData: Omit<ErrorLog, "id" | "timestamp" | "userAgent" | "url">,
+  ) {
     const log: ErrorLog = {
       id: crypto.randomUUID(),
       timestamp: new Date(),
       userAgent: navigator.userAgent,
       url: window.location.href,
-      ...logData
+      ...logData,
     };
 
     this.logs.unshift(log);
-    
+
     // Keep only the most recent logs
     if (this.logs.length > this.maxLogs) {
       this.logs = this.logs.slice(0, this.maxLogs);
@@ -101,7 +103,7 @@ class ErrorLogger {
   }
 
   getLogsByType(type: ErrorLog["type"]): ErrorLog[] {
-    return this.logs.filter(log => log.type === type);
+    return this.logs.filter((log) => log.type === type);
   }
 
   clearLogs() {
@@ -116,8 +118,8 @@ class ErrorLogger {
   // Get summary of error counts
   getErrorSummary() {
     const summary: Record<string, number> = {};
-    
-    this.logs.forEach(log => {
+
+    this.logs.forEach((log) => {
       const key = `${log.type}:${log.error}`;
       summary[key] = (summary[key] || 0) + 1;
     });
@@ -129,11 +131,12 @@ class ErrorLogger {
   hasRecurringPermissionIssues(): boolean {
     const permissionErrors = this.getLogsByType("permission");
     const geolocationErrors = this.getLogsByType("geolocation");
-    
+
     return (
-      permissionErrors.length > 2 || 
-      geolocationErrors.filter(log => 
-        log.details?.code === GeolocationPositionError.PERMISSION_DENIED
+      permissionErrors.length > 2 ||
+      geolocationErrors.filter(
+        (log) =>
+          log.details?.code === GeolocationPositionError.PERMISSION_DENIED,
       ).length > 2
     );
   }
@@ -143,13 +146,13 @@ class ErrorLogger {
     switch (error.code) {
       case error.PERMISSION_DENIED:
         return "Location access was blocked. Click the location icon in your browser's address bar and select 'Allow' to enable location tracking.";
-      
+
       case error.POSITION_UNAVAILABLE:
         return "Unable to determine your location. Try moving to an area with better GPS signal or closer to a window.";
-      
+
       case error.TIMEOUT:
         return "Location request took too long. Check your internet connection and try again.";
-      
+
       default:
         return "There was an issue accessing your location. Try refreshing the page or checking your browser settings.";
     }
@@ -159,7 +162,7 @@ class ErrorLogger {
   private async sendToErrorService(log: ErrorLog) {
     // In production, implement error tracking service integration
     // Examples: Sentry, LogRocket, DataDog, etc.
-    
+
     try {
       // await fetch('/api/log-error', {
       //   method: 'POST',
@@ -181,6 +184,9 @@ if (typeof window !== "undefined") {
   });
 
   window.addEventListener("unhandledrejection", (event) => {
-    errorLogger.logApiError("promise", event.reason?.toString() || "Unhandled promise rejection");
+    errorLogger.logApiError(
+      "promise",
+      event.reason?.toString() || "Unhandled promise rejection",
+    );
   });
 }

@@ -29,25 +29,25 @@ const CRIME_ZONES: CrimeZoneData[] = [
     crimeRate: 18.7,
     lat: 40.7209,
     lng: -73.9896,
-    radius: 500
+    radius: 500,
   },
   {
     zipcode: "10003",
-    area: "Greenwich Village", 
+    area: "Greenwich Village",
     grade: "A",
     crimeRate: 8.2,
     lat: 40.7316,
     lng: -73.9938,
-    radius: 400
+    radius: 400,
   },
   {
     zipcode: "10001",
     area: "Chelsea",
-    grade: "B", 
+    grade: "B",
     crimeRate: 12.3,
-    lat: 40.7450,
+    lat: 40.745,
     lng: -73.9973,
-    radius: 600
+    radius: 600,
   },
   {
     zipcode: "10004",
@@ -56,12 +56,16 @@ const CRIME_ZONES: CrimeZoneData[] = [
     crimeRate: 4.1,
     lat: 40.7041,
     lng: -74.0125,
-    radius: 300
-  }
+    radius: 300,
+  },
 ];
 
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "YOUR_API_KEY_HERE";
-const IS_DEMO_MODE = !GOOGLE_MAPS_API_KEY || GOOGLE_MAPS_API_KEY === "demo_mode" || GOOGLE_MAPS_API_KEY === "YOUR_API_KEY_HERE";
+const GOOGLE_MAPS_API_KEY =
+  import.meta.env.VITE_GOOGLE_MAPS_API_KEY || "YOUR_API_KEY_HERE";
+const IS_DEMO_MODE =
+  !GOOGLE_MAPS_API_KEY ||
+  GOOGLE_MAPS_API_KEY === "demo_mode" ||
+  GOOGLE_MAPS_API_KEY === "YOUR_API_KEY_HERE";
 
 const getZoneColor = (grade: CrimeZoneData["grade"]) => {
   switch (grade) {
@@ -82,10 +86,15 @@ const getZoneColor = (grade: CrimeZoneData["grade"]) => {
 export default function GoogleMapsGeofence() {
   const mapRef = useRef<HTMLDivElement>(null);
   const [map, setMap] = useState<google.maps.Map | null>(null);
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
   const [alerts, setAlerts] = useState<GeofenceAlert[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [locationPermission, setLocationPermission] = useState<"granted" | "denied" | "prompt">("prompt");
+  const [locationPermission, setLocationPermission] = useState<
+    "granted" | "denied" | "prompt"
+  >("prompt");
   const geofencesRef = useRef<google.maps.Circle[]>([]);
   const userMarkerRef = useRef<google.maps.Marker | null>(null);
   const watchIdRef = useRef<number | null>(null);
@@ -104,7 +113,7 @@ export default function GoogleMapsGeofence() {
         const loader = new Loader({
           apiKey: GOOGLE_MAPS_API_KEY,
           version: "weekly",
-          libraries: ["geometry", "places"]
+          libraries: ["geometry", "places"],
         });
 
         await loader.load();
@@ -119,9 +128,9 @@ export default function GoogleMapsGeofence() {
             {
               featureType: "poi",
               elementType: "labels",
-              stylers: [{ visibility: "off" }]
-            }
-          ]
+              stylers: [{ visibility: "off" }],
+            },
+          ],
         });
 
         setMap(mapInstance);
@@ -154,37 +163,39 @@ export default function GoogleMapsGeofence() {
     }
 
     try {
-      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-          resolve,
-          (error) => {
-            let errorMessage = "Unknown location error";
-            switch (error.code) {
-              case error.PERMISSION_DENIED:
-                errorMessage = "Location access denied. Using demo mode.";
-                break;
-              case error.POSITION_UNAVAILABLE:
-                errorMessage = "Location unavailable. Using demo mode.";
-                break;
-              case error.TIMEOUT:
-                errorMessage = "Location request timed out. Using demo mode.";
-                break;
-            }
-            console.log(errorMessage);
-            reject(new Error(errorMessage));
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 60000
-          }
-        );
-      });
+      const position = await new Promise<GeolocationPosition>(
+        (resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(
+            resolve,
+            (error) => {
+              let errorMessage = "Unknown location error";
+              switch (error.code) {
+                case error.PERMISSION_DENIED:
+                  errorMessage = "Location access denied. Using demo mode.";
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  errorMessage = "Location unavailable. Using demo mode.";
+                  break;
+                case error.TIMEOUT:
+                  errorMessage = "Location request timed out. Using demo mode.";
+                  break;
+              }
+              console.log(errorMessage);
+              reject(new Error(errorMessage));
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 15000,
+              maximumAge: 60000,
+            },
+          );
+        },
+      );
 
       setLocationPermission("granted");
       updateUserLocation({
         lat: position.coords.latitude,
-        lng: position.coords.longitude
+        lng: position.coords.longitude,
       });
 
       // Start watching location
@@ -192,7 +203,7 @@ export default function GoogleMapsGeofence() {
         (pos) => {
           updateUserLocation({
             lat: pos.coords.latitude,
-            lng: pos.coords.longitude
+            lng: pos.coords.longitude,
           });
         },
         (error) => {
@@ -214,12 +225,12 @@ export default function GoogleMapsGeofence() {
         {
           enableHighAccuracy: false,
           maximumAge: 60000,
-          timeout: 15000
-        }
+          timeout: 15000,
+        },
       );
-
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to get location";
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to get location";
       console.log(errorMessage);
       setLocationPermission("denied");
       // Fallback to Manhattan center for demo
@@ -230,7 +241,7 @@ export default function GoogleMapsGeofence() {
   // Update user location and check geofences
   const updateUserLocation = (location: { lat: number; lng: number }) => {
     setUserLocation(location);
-    
+
     if (!map) return;
 
     // Update or create user marker
@@ -247,8 +258,8 @@ export default function GoogleMapsGeofence() {
           fillColor: "#3b82f6",
           fillOpacity: 1,
           strokeWeight: 2,
-          strokeColor: "#ffffff"
-        }
+          strokeColor: "#ffffff",
+        },
       });
     }
 
@@ -267,7 +278,7 @@ export default function GoogleMapsGeofence() {
         fillOpacity: 0.2,
         map: mapInstance,
         center: { lat: zone.lat, lng: zone.lng },
-        radius: zone.radius
+        radius: zone.radius,
       });
 
       // Add info window
@@ -279,7 +290,7 @@ export default function GoogleMapsGeofence() {
             <p class="text-sm">Crime Rate: ${zone.crimeRate}/1000</p>
             <p class="text-sm text-gray-600">Radius: ${zone.radius}m</p>
           </div>
-        `
+        `,
       });
 
       circle.addListener("click", () => {
@@ -296,36 +307,42 @@ export default function GoogleMapsGeofence() {
     CRIME_ZONES.forEach((zone) => {
       const distance = google.maps.geometry.spherical.computeDistanceBetween(
         new google.maps.LatLng(userPos.lat, userPos.lng),
-        new google.maps.LatLng(zone.lat, zone.lng)
+        new google.maps.LatLng(zone.lat, zone.lng),
       );
 
       const isInside = distance <= zone.radius;
-      const wasInside = alerts.some(alert => 
-        alert.zone.zipcode === zone.zipcode && 
-        alert.type === "entry" && 
-        !alerts.some(exitAlert => 
-          exitAlert.zone.zipcode === zone.zipcode && 
-          exitAlert.type === "exit" && 
-          exitAlert.timestamp > alert.timestamp
-        )
+      const wasInside = alerts.some(
+        (alert) =>
+          alert.zone.zipcode === zone.zipcode &&
+          alert.type === "entry" &&
+          !alerts.some(
+            (exitAlert) =>
+              exitAlert.zone.zipcode === zone.zipcode &&
+              exitAlert.type === "exit" &&
+              exitAlert.timestamp > alert.timestamp,
+          ),
       );
 
       // Entering a high-crime zone
-      if (isInside && !wasInside && (zone.grade === "C" || zone.grade === "D" || zone.grade === "F")) {
+      if (
+        isInside &&
+        !wasInside &&
+        (zone.grade === "C" || zone.grade === "D" || zone.grade === "F")
+      ) {
         const newAlert: GeofenceAlert = {
           id: `${zone.zipcode}-entry-${Date.now()}`,
           zone,
           timestamp: new Date(),
-          type: "entry"
+          type: "entry",
         };
-        
-        setAlerts(prev => [...prev, newAlert]);
-        
+
+        setAlerts((prev) => [...prev, newAlert]);
+
         // Show browser notification if permission granted
         if (Notification.permission === "granted") {
           new Notification(`⚠️ Entered High-Crime Area`, {
             body: `You've entered ${zone.area} (Grade ${zone.grade}). Consider finding a walking buddy!`,
-            icon: "/favicon.ico"
+            icon: "/favicon.ico",
           });
         }
       }
@@ -336,10 +353,10 @@ export default function GoogleMapsGeofence() {
           id: `${zone.zipcode}-exit-${Date.now()}`,
           zone,
           timestamp: new Date(),
-          type: "exit"
+          type: "exit",
         };
-        
-        setAlerts(prev => [...prev, exitAlert]);
+
+        setAlerts((prev) => [...prev, exitAlert]);
       }
     });
   };
@@ -369,8 +386,12 @@ export default function GoogleMapsGeofence() {
       <div className="p-6 border-b border-slate-200">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">Real-Time Crime Map</h3>
-            <p className="text-sm text-slate-600 mt-1">Live geofencing with zipcode crime data</p>
+            <h3 className="text-lg font-semibold text-slate-900">
+              Real-Time Crime Map
+            </h3>
+            <p className="text-sm text-slate-600 mt-1">
+              Live geofencing with zipcode crime data
+            </p>
           </div>
           <div className="flex items-center gap-2">
             {locationPermission === "granted" ? (
@@ -387,16 +408,19 @@ export default function GoogleMapsGeofence() {
           </div>
         </div>
       </div>
-      
+
       <div className="p-6">
         {/* Map Container */}
         {IS_DEMO_MODE ? (
           <div className="h-96 w-full rounded-lg border border-slate-200 mb-4 bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center">
             <div className="text-center p-8">
               <div className="text-6xl mb-4">🗺️</div>
-              <h3 className="text-xl font-semibold text-slate-700 mb-2">Demo Mode</h3>
+              <h3 className="text-xl font-semibold text-slate-700 mb-2">
+                Demo Mode
+              </h3>
               <p className="text-slate-600 mb-4 max-w-md">
-                To see real Google Maps with live geofencing, add your Google Maps API key to the environment variables.
+                To see real Google Maps with live geofencing, add your Google
+                Maps API key to the environment variables.
               </p>
               <div className="bg-white/70 border border-slate-200 rounded-lg p-4 text-left text-sm">
                 <div className="font-mono text-slate-800">
@@ -425,14 +449,14 @@ export default function GoogleMapsGeofence() {
                   style={{
                     left: `${20 + index * 15}%`,
                     top: `${30 + index * 10}%`,
-                    transform: "translate(-50%, -50%)"
+                    transform: "translate(-50%, -50%)",
                   }}
                 >
                   <div
                     className="h-12 w-12 rounded-full border-2 opacity-60"
                     style={{
                       backgroundColor: getZoneColor(zone.grade) + "40",
-                      borderColor: getZoneColor(zone.grade)
+                      borderColor: getZoneColor(zone.grade),
                     }}
                   >
                     <div className="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
@@ -444,37 +468,46 @@ export default function GoogleMapsGeofence() {
             </div>
           </div>
         ) : (
-          <div ref={mapRef} className="h-96 w-full rounded-lg border border-slate-200 mb-4"></div>
+          <div
+            ref={mapRef}
+            className="h-96 w-full rounded-lg border border-slate-200 mb-4"
+          ></div>
         )}
-        
+
         {/* Recent Alerts */}
         {alerts.length > 0 && (
           <div className="mb-4">
-            <h4 className="text-sm font-semibold text-slate-900 mb-2">Recent Geofence Alerts</h4>
+            <h4 className="text-sm font-semibold text-slate-900 mb-2">
+              Recent Geofence Alerts
+            </h4>
             <div className="space-y-2 max-h-32 overflow-y-auto">
-              {alerts.slice(-3).reverse().map((alert) => (
-                <div
-                  key={alert.id}
-                  className={cn(
-                    "flex items-center gap-2 rounded-lg p-2 text-sm border",
-                    alert.type === "entry" && alert.zone.grade === "C" 
-                      ? "bg-red-50 border-red-200 text-red-700"
-                      : alert.type === "entry"
-                      ? "bg-warning-50 border-warning-200 text-warning-700"
-                      : "bg-green-50 border-green-200 text-green-700"
-                  )}
-                >
-                  {alert.type === "entry" ? (
-                    <AlertTriangle className="h-4 w-4" />
-                  ) : (
-                    <Shield className="h-4 w-4" />
-                  )}
-                  <span>
-                    {alert.type === "entry" ? "Entered" : "Exited"} {alert.zone.area} 
-                    ({alert.zone.grade}) at {alert.timestamp.toLocaleTimeString()}
-                  </span>
-                </div>
-              ))}
+              {alerts
+                .slice(-3)
+                .reverse()
+                .map((alert) => (
+                  <div
+                    key={alert.id}
+                    className={cn(
+                      "flex items-center gap-2 rounded-lg p-2 text-sm border",
+                      alert.type === "entry" && alert.zone.grade === "C"
+                        ? "bg-red-50 border-red-200 text-red-700"
+                        : alert.type === "entry"
+                          ? "bg-warning-50 border-warning-200 text-warning-700"
+                          : "bg-green-50 border-green-200 text-green-700",
+                    )}
+                  >
+                    {alert.type === "entry" ? (
+                      <AlertTriangle className="h-4 w-4" />
+                    ) : (
+                      <Shield className="h-4 w-4" />
+                    )}
+                    <span>
+                      {alert.type === "entry" ? "Entered" : "Exited"}{" "}
+                      {alert.zone.area}({alert.zone.grade}) at{" "}
+                      {alert.timestamp.toLocaleTimeString()}
+                    </span>
+                  </div>
+                ))}
             </div>
           </div>
         )}
@@ -482,7 +515,9 @@ export default function GoogleMapsGeofence() {
         {/* Legend */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
-            <h4 className="text-sm font-semibold text-slate-900 mb-2">Crime Zones</h4>
+            <h4 className="text-sm font-semibold text-slate-900 mb-2">
+              Crime Zones
+            </h4>
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm">
                 <div className="h-3 w-3 rounded-full bg-green-500"></div>
@@ -500,7 +535,9 @@ export default function GoogleMapsGeofence() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold text-slate-900 mb-2">Features</h4>
+            <h4 className="text-sm font-semibold text-slate-900 mb-2">
+              Features
+            </h4>
             <div className="space-y-1 text-sm text-slate-600">
               <div>✓ Real-time location tracking</div>
               <div>✓ Automatic geofence detection</div>
