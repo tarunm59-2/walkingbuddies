@@ -56,7 +56,7 @@ export default function Layout({ children }: LayoutProps) {
                   className={cn(
                     "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                     isActive
-                      ? "bg-gradient-to-r from-security-500 to-security-600 text-white shadow-lg shadow-security-500/25"
+                      ? "bg-gradient-to-r from-safety-500 to-safety-600 text-white shadow-lg shadow-safety-500/25"
                       : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
                   )}
                 >
