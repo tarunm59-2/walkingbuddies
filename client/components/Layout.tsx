@@ -1,13 +1,6 @@
 import { ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Shield,
-  MapPin,
-  Settings,
-  Activity,
-  AlertTriangle,
-  Users,
-} from "lucide-react";
+import { Heart, MapPin, Settings, Activity, Users, MessageCircle, Star, Navigation } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LayoutProps {
@@ -22,11 +15,12 @@ interface NavItem {
 }
 
 const navigation: NavItem[] = [
-  { name: "Dashboard", href: "/", icon: Activity },
-  { name: "Geofences", href: "/geofences", icon: MapPin },
-  { name: "Devices", href: "/devices", icon: Shield },
-  { name: "Alerts", href: "/alerts", icon: AlertTriangle, badge: 3 },
-  { name: "Users", href: "/users", icon: Users },
+  { name: "Find Buddies", href: "/", icon: Activity },
+  { name: "Safety Map", href: "/safety-map", icon: MapPin },
+  { name: "My Buddies", href: "/buddies", icon: Users },
+  { name: "Messages", href: "/messages", icon: MessageCircle, badge: 2 },
+  { name: "Safe Places", href: "/safe-places", icon: Heart },
+  { name: "Reviews", href: "/reviews", icon: Star },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -63,27 +57,23 @@ export default function Layout({ children }: LayoutProps) {
                     "group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200",
                     isActive
                       ? "bg-gradient-to-r from-security-500 to-security-600 text-white shadow-lg shadow-security-500/25"
-                      : "text-slate-700 hover:bg-slate-100 hover:text-slate-900",
+                      : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
                   )}
                 >
                   <item.icon
                     className={cn(
                       "h-5 w-5 transition-colors",
-                      isActive
-                        ? "text-white"
-                        : "text-slate-500 group-hover:text-slate-700",
+                      isActive ? "text-white" : "text-slate-500 group-hover:text-slate-700"
                     )}
                   />
                   <span className="flex-1">{item.name}</span>
                   {item.badge && (
-                    <span
-                      className={cn(
-                        "inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium",
-                        isActive
-                          ? "bg-white/20 text-white"
-                          : "bg-warning-500 text-white",
-                      )}
-                    >
+                    <span className={cn(
+                      "inline-flex h-5 w-5 items-center justify-center rounded-full text-xs font-medium",
+                      isActive
+                        ? "bg-white/20 text-white"
+                        : "bg-warning-500 text-white"
+                    )}>
                       {item.badge}
                     </span>
                   )}
@@ -96,9 +86,7 @@ export default function Layout({ children }: LayoutProps) {
           <div className="p-4 border-t border-slate-200">
             <div className="flex items-center gap-3 rounded-lg bg-success-50 px-3 py-2">
               <div className="h-2 w-2 rounded-full bg-success-500"></div>
-              <span className="text-sm font-medium text-success-700">
-                System Online
-              </span>
+              <span className="text-sm font-medium text-success-700">System Online</span>
             </div>
           </div>
         </div>
@@ -129,7 +117,9 @@ export default function Layout({ children }: LayoutProps) {
 
       {/* Main content */}
       <div className="lg:pl-64">
-        <main className="min-h-screen">{children}</main>
+        <main className="min-h-screen">
+          {children}
+        </main>
       </div>
     </div>
   );
